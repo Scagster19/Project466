@@ -1,7 +1,7 @@
 <html>
 <style>
 	.top{
-		color: blue;
+		color: green;
 		text-align: center;
 	}
 </style>
