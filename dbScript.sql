@@ -77,14 +77,14 @@ INSERT INTO Contributor (ContributorName, ContributorToSong, ContributorAs) VALU
 -- Inserts for Song table
 INSERT INTO Song (Title, Artist, ContributorID) VALUES
 ('Bohemian Rhapsody', 'Queen', 1),
-('Don''t Stop Believin''', 'Journey', 2),
+('Dont Stop Believin', 'Journey', 2),
 ('Sweet Caroline', 'Neil Diamond', 3),
-('Livin'' on a Prayer', 'Bon Jovi', 4),
+('Livin on a Prayer', 'Bon Jovi', 4),
 ('Wonderwall', 'Oasis', 5),
 ('Billie Jean', 'Michael Jackson', 6),
 ('Hotel California', 'Eagles', 7),
 ('Rolling in the Deep', 'Adele', 8),
-('Summer of ''69', 'Bryan Adams', 9),
+('Summer of 69', 'Bryan Adams', 9),
 ('Piano Man', 'Billy Joel', 10),
 ('Every Breath You Take', 'The Police', 11),
 ('I Will Always Love You', 'Whitney Houston', 12),
@@ -95,7 +95,7 @@ INSERT INTO Song (Title, Artist, ContributorID) VALUES
 ('Boogie Wonderland', 'Earth, Wind & Fire', 17),
 ('I Want to Hold Your Hand', 'The Beatles', 18),
 ('I Wanna Dance with Somebody', 'Whitney Houston', 19),
-('Don''t You Want Me', 'The Human League', 20);
+('Dont You Want Me', 'The Human League', 20);
 
 INSERT INTO KFile (Song, SongID, Version) VALUES
 ('bohemian_rhapsody_karaoke.mp3', 1, 'Standard'),
@@ -139,6 +139,22 @@ INSERT INTO KFile (Song, SongID, Version) VALUES
 ('dont_you_want_me_karaoke.mp3', 20, 'Standard'),
 ('dont_you_want_me_duet_karaoke.mp3', 20, 'Duet');
 
+-- Inserts for Contributor table
+INSERT INTO Contributor (ContributorName, ContributorToSong, ContributorAs) VALUES
+('David Bowie', 'Space Oddity', 'Singer'),
+('David Bowie', 'Heroes', 'Singer'),
+('David Bowie', 'Let''s Dance', 'Singer'),
+('David Bowie', 'Life on Mars?', 'Singer'),
+('David Bowie', 'All the Young Dudes', 'Writer');
+
+-- Inserts for Song table
+INSERT INTO Song (Title, Artist, ContributorID) VALUES
+('Space Oddity', 'David Bowie', (SELECT ContributorID FROM Contributor WHERE ContributorName = 'David Bowie' AND ContributorToSong = 'Space Oddity')),
+('Heroes', 'David Bowie', (SELECT ContributorID FROM Contributor WHERE ContributorName = 'David Bowie' AND ContributorToSong = 'Heroes')),
+('Let''s Dance', 'David Bowie', (SELECT ContributorID FROM Contributor WHERE ContributorName = 'David Bowie' AND ContributorToSong = 'Let''s Dance')),
+('Life on Mars?', 'David Bowie', (SELECT ContributorID FROM Contributor WHERE ContributorName = 'David Bowie' AND ContributorToSong = 'Life on Mars?')),
+('All the Young Dudes', 'Mott the Hoople', (SELECT ContributorID FROM Contributor WHERE ContributorName = 'David Bowie' AND ContributorToSong = 'All the Young Dudes'));
+
 -- Inserts for Queue table
 INSERT INTO Queue (SingerID, KFileID) VALUES (1, 1), (2, 2);
 
@@ -151,5 +167,3 @@ SELECT * FROM Song;
 SELECT * FROM KFile;
 SELECT * FROM Queue;
 SELECT * FROM QueuePaid;
-
-
