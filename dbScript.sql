@@ -139,7 +139,6 @@ INSERT INTO KFile (Song, SongID, Version) VALUES
 ('dont_you_want_me_karaoke.mp3', 20, 'Standard'),
 ('dont_you_want_me_duet_karaoke.mp3', 20, 'Duet');
 
--- Inserts for Contributor table
 INSERT INTO Contributor (ContributorName, ContributorToSong, ContributorAs) VALUES
 ('David Bowie', 'Space Oddity', 'Singer'),
 ('David Bowie', 'Heroes', 'Singer'),
@@ -147,7 +146,6 @@ INSERT INTO Contributor (ContributorName, ContributorToSong, ContributorAs) VALU
 ('David Bowie', 'Life on Mars?', 'Singer'),
 ('David Bowie', 'All the Young Dudes', 'Writer');
 
--- Inserts for Song table
 INSERT INTO Song (Title, Artist, ContributorID) VALUES
 ('Space Oddity', 'David Bowie', (SELECT ContributorID FROM Contributor WHERE ContributorName = 'David Bowie' AND ContributorToSong = 'Space Oddity')),
 ('Heroes', 'David Bowie', (SELECT ContributorID FROM Contributor WHERE ContributorName = 'David Bowie' AND ContributorToSong = 'Heroes')),
