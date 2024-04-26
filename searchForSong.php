@@ -9,8 +9,8 @@
         <title>Search for song</title>
     </head>
     <body>
-	<h1 class='top'> CSCI 466 Project</h1>
-	<button class="button2" onclick="window.location.href = 'index.php';">Go Back</button>
+        <h1 class='top'> CSCI 466 Project</h1>
+        <button class="button2" onclick="window.location.href = 'index.php';">Go back</button>
         <form method="post">
             <label for="searchForSong">Search for song by:</label>
             <select name="searchForSong" id="searchForSong">
@@ -28,7 +28,6 @@
             <button type="submit" name="seeAllSongs">See All Songs</button>
         </form>
         
-        
         <?php
             if(isset($_POST['seeAllSongs'])){
                 $username = 'z2003886';
@@ -36,7 +35,7 @@
                 try {
                     $dsn = "mysql:host=courses;dbname=z2003886";
                     $pdo = new PDO($dsn, $username, $password);
-                    $songs = $pdo->query("SELECT * FROM Song");
+                    $songs = $pdo->query("SELECT Song.Title, ArtistName AS Artist FROM Song JOIN Artist ON Song.ArtistID = Artist.ArtistID");
                     while($row = $songs->fetch(PDO::FETCH_ASSOC)){
                         echo "<div>{$row['Title']} by {$row['Artist']}</div>";
                         echo "<br>";
@@ -45,7 +44,7 @@
                     echo "Connection failed: " . $e->getMessage();
                 } 
             }
-            
+
             if(isset($_POST['submitSearch'])){
                 $searchCriteria = $_POST['searchForSong'];
                 $searchWord = $_POST['searchWord'];
@@ -53,10 +52,10 @@
                 $contributorID = 0;
                 switch($searchCriteria){
                     case "artistName":
-                        $result = "SELECT * FROM Song WHERE Artist LIKE '%$searchWord'";
+                        $result = "SELECT Song.Title, Artist.ArtistName AS Artist FROM Song JOIN Artist ON Song.ArtistID = Artist.ArtistID WHERE ArtistName LIKE '%$searchWord'";
                         break;
                     case "titleOfSong":
-                        $result = "SELECT * FROM Song WHERE Title LIKE '%$searchWord'";
+                        $result = "SELECT Song.Title, Artist.ArtistName AS Artist FROM Song JOIN Artist ON Song.ArtistID = Artist.ArtistID WHERE Title LIKE '%$searchWord'";
                         break;
                     case "nameOfContributer":
                         $result = "SELECT * FROM Contributor WHERE ContributorName LIKE '%$searchWord'";
