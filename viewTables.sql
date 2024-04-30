@@ -1,0 +1,5 @@
+SELECT * FROM Singer;
+SELECT * FROM KFile;
+SELECT * FROM Queue;
+SELECT * FROM QueuePaid;
+
