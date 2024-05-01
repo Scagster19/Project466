@@ -49,7 +49,7 @@ CREATE TABLE Queue(
 
 CREATE TABLE QueuePaid(
     QueuePaidID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    Paid DECIMAL(10,2),
+    Paid INT DEFAULT 0,
     SingerID INT,
     KFileID INT,
     FOREIGN KEY (SingerID) REFERENCES Singer(SingerID),

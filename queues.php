@@ -29,11 +29,8 @@
         <h1 class='top'>Queue</h1>
         <button class="button2" onclick="window.location.href = 'index.php';">Go back</button>
         <form method="post">
-            <label for="signUpForQueue">To enter priority queue, you can pay 5$. Would you like to pay?</label>
-            <select name="signUpForQueue" id="signUpForQueue">
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
+            <label for="signUpForQueue">To enter priority queue, you can pay (dollar amount only, no cents). Would you like to pay? Leave empty of type 0 if not</label>
+                <input type="number" name="signUpForQueue" id="signUpForQueue">
             <br>
 
             <label for="enterFirstName">Enter first name:</label>
@@ -71,14 +68,14 @@
                     $dsn = "mysql:host=courses;dbname=z2003886";
                     $pdo = new PDO($dsn, $username, $password);
                     //$search = "SELECT * FROM Queue;";
-                    $search = "SELECT KFile.Song, Singer.SingerName FROM Queue JOIN KFile ON Queue.KFileID = KFile.KFileID JOIN Singer ON Queue.SingerID = Singer.SingerID";
+                    $search = "SELECT KFile.Song, Singer.SingerName, KFile.Version FROM Queue JOIN KFile ON Queue.KFileID = KFile.KFileID JOIN Singer ON Queue.SingerID = Singer.SingerID";
                     $res = $pdo->prepare($search);
                     $res->execute();
                     $rows = $res->fetchAll(PDO::FETCH_ASSOC);
                     echo "<div>Free queue: </div>";
                     $count = 1;
                     foreach ($rows as $row){
-                        echo "<div>$count. {$row['Song']} performed by: {$row['SingerName']}</div>";
+                        echo "<div class='freeQueueList'>$count. {$row['Song']}, performed by: {$row['SingerName']}, Version: {$row['Version']}</div>";
                         echo "<br>";
                         $count++;
                     }
@@ -93,7 +90,7 @@
                 try {
                     $dsn = "mysql:host=courses;dbname=z2003886";
                     $pdo = new PDO($dsn, $username, $password);
-                    $search = "SELECT KFile.Song, Singer.SingerName FROM QueuePaid JOIN KFile ON QueuePaid.KFileID = KFile.KFileID JOIN Singer ON QueuePaid.SingerID = Singer.SingerID";
+                    $search = "SELECT KFile.Song, Singer.SingerName, QueuePaid.Paid, KFile.Version FROM QueuePaid JOIN KFile ON QueuePaid.KFileID = KFile.KFileID JOIN Singer ON QueuePaid.SingerID = Singer.SingerID GROUP BY QueuePaid.Paid DESC";
                     $res = $pdo->prepare($search);
                     $res->execute();
                     $rows = $res->fetchAll(PDO::FETCH_ASSOC);
@@ -101,7 +98,7 @@
                     echo "<div>Paid queue: </div>";
                     $count = 1;
                     foreach ($rows as $row){
-                        echo "<div>$count. {$row['Song']} performed by: {$row['SingerName']}</div>";
+                        echo "<div class='paidQueueList'>$count. {$row['Song']}, performed by: {$row['SingerName']}, Version: {$row['Version']}, paid: $" . $row['Paid'] . "</div>";
                         echo "<br>";
                         $count++;
                     }
@@ -145,15 +142,18 @@
                     $st = $pdo->prepare($search);
                     $st->execute([$selectedSong]);
                     $KFileIDSearch = $st->fetch();
-                    if($paid === "no"){
+                    if(empty($paid) || $paid === 0){
                         $insert = "INSERT INTO Queue (SingerID, KFileID) VALUES (?, ?)";
                         $st = $pdo->prepare($insert);
                         $st->execute([$SingerID['SingerID'], $KFileIDSearch['KFileID']]);                        
                         echo "<div>You have entered the queue!</div>";
-                    } else if ($paid === "yes"){
+                    } else if ($paid < 0){
+                        echo "<div class='firstLastNameError'>Paid amount cannot be negative!</div>";
+                        throw new Exception("Paid amount cannot be negative!");
+                    } else{
                         $insert = "INSERT INTO QueuePaid (Paid, SingerID, KFileID) VALUES (?, ?, ?)";
                         $st = $pdo->prepare($insert);
-                        $st->execute([5, $SingerID['SingerID'], $KFileIDSearch['KFileID']]);                        
+                        $st->execute([$paid, $SingerID['SingerID'], $KFileIDSearch['KFileID']]);                        
                         echo "<div>You have entered the paid queue!</div>";
                     }
                 } catch (PDOException $e) {
@@ -163,4 +163,3 @@
         ?>
     </body>
 </html>
-
