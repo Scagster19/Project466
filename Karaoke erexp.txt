@@ -1,0 +1,73 @@
+*Entities
+{
+  Singer: This entity is used to store information on what person/people are going to sing the song chosen. Like if the person went up to sing a song or sing with another person record who/they are. The cardinalities are many.
+
+  Queue: This Entity stores the songs to get ready for the next song in the playlist. This will have multiple songs in backup to play based off the singers choose. The cardinalities are many as there can be many songs in store.
+
+  QueuePaid: This Entity stores the amount of money the singer paid for per song. This stores the values and price of the song paid for. The cardinalites are many as there can many prices for many songs.
+
+  KFile: This Entity is short for karaoke file which stores all the songs names and whether or not they can be standard or duet. This shows the lyrics and playing the song. The cardinalites are one to one since its only one song chosen to sing.
+
+  Song: This Entity stores the song names in the database. This entity is a list that the user can choose a song of perference from. This is a many relationship because there can be any songs to choose from.
+
+  Artist: This Entity stores the name of the Artist who made the songs. This can help categorize what artist made which song and what artist are in the playlist. The cardinalities are many, since there can be one artist with many songs.
+
+  Contributor: This Entity organizes the data of what artist contributed to the song. The song was made or who did something for the song in some way. This will help to find the song even if the artist just play drums for example. The cardinalities are one because there are usually one contributer per song.
+  
+}
+
+
+*Relationships
+{
+  Amount: This relationship is a many to many and is displaying the amount the singer paid to queue that song.
+
+  Next: This rekationship is mant to many. This relationship is showing the next singer in the queue. The amount of singer in the queue can be many.
+
+  Song In: This relationship is one to many. This showcase what song is in the queue and pulls that file from KFile.
+
+  Per: This is a many to one relationship. This shows the amount of money per song. This is meant to calculate the price and displayes with that songs.
+
+  Chosen: This relationship is one to many. This is meant to show the lyrics and song name of what can be chosen in the database. You can chose many song but play one song at a time.
+
+  By: This relationship is many to many. This shows and displays the song and the artist who made it. This is many to many because it can have multiple artist on multiple songs and vice versa.
+
+  Pick: This relationship is one to many. This is used the store the person who picked a song that he contributed to. This helps what artist picked a contributor have on their song.
+
+  Find: This is a one to many relationship. This realtionship is to find what song has a contributor.  
+}
+
+*Attributes (Entity)
+{
+  #SingerID (Singer): This attribute store the id of a singer/singers into the database. This is a identifier to the entity singer and is used to differentiate between multiple people.
+
+   SingerName (Singer): This stores the name of the person/people who goes up to sing.
+
+  #QueueID (Queue): This is an identifier for the Queue entity. This will help organize the next song to come up after the singer/singers took their turn.
+
+  #QueuePaidID (QueuePaid): This is a identifier for the entity QueuePaid. This store each purchase of the song paid for by the singer.
+ 
+   Paid (QueuePaid): This attribute store the pricing and the total amount paid for the specific song. 
+
+   #KFileID (KFile): This identifier to the KFile entity stores the id of the what song the user wants to choose.
+ 
+     Version (KFile): This attribute is used to showcase what version of the song you want. Whether its a duet or standard.
+     
+     Song (KFile): This attribute stores the song name with the entity KFile.
+
+    #SongID (Song): This identifier for the song entity is used to keep up with the total number of songs in the entity or the datbase.
+
+     Title (Song): This attribute stores the title of the song in the entity song. Whatever the title my be, the user would be able to choose one of those titles.
+
+    #ArtistID (Artist): This identifier is used to track the data of all the AritistNAme in the entity Artist.
+ 
+     ArtistName (Artist): This attibute stores the name of all the artist in the playlist of who contributed a song.
+
+    #ContributorID (Contributor): This identifier tracks the total amount of contributors to songs. This also uniquely identifies each contributor.
+
+     ContributorAS (Contributor): This attribute stores the data of what was contributed to that song. like did that person make the chorus or the beat.
+ 
+     ContributorToSong (Contributor): This attribute stores what song that had a contributer on that song.
+
+     ContributorName (Contributor): This attribute displays and shows the name of the person that contributed to that song.
+
+}
