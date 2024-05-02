@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Function to connect to the database
+//Connection Function
 function connect_db($username, $password) {
     try {
         $dsn = "mysql:host=courses;dbname=z2003886";
